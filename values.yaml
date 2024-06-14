@@ -1,5 +1,5 @@
 ---
-name: eventstreams
+name: es-kafka
 env: svil
 namespace: myproject
 ibmLicenseUse: EventAutomationNonProduction

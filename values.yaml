@@ -1,4 +1,4 @@
-
+---
 name: eventstreams
 env: svil
 namespace: myproject
@@ -6,10 +6,10 @@ ibmLicenseUse: EventAutomationNonProduction
 #wave: 1
 kafka_replicas: 3
 zookeeper_replicas: 3
-image: 
-  repository: docker.io/fdaluisio/fd-sql-runner
-  version: v1
-  imagepullpolicy: Always
-storageclassname: crc-csi-hostpath-provisioner
-storage_broker: 150Gi
-storage_zookeeper: 150Gi
+#image: 
+#  repository: docker.io/fdaluisio/fd-sql-runner
+#  version: v1
+#  imagepullpolicy: Always
+#storageclassname: crc-csi-hostpath-provisioner
+#storage_broker: 150Gi
+#storage_zookeeper: 150Gi

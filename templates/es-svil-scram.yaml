@@ -3,8 +3,8 @@ kind: EventStreams
 metadata:
   annotations:
     eventstreams.ibm.com/apicurio-registry-version: '>=2.4.1'
-  name: dev-scram
-  namespace: myproject
+  name: {{ .Values.env }}-{{ .Values.name }}
+  namespace: {{ .Values.namespace }}
   labels:
     backup.eventstreams.ibm.com/component: eventstreams
 spec:
@@ -17,7 +17,7 @@ spec:
   license:
     accept: true
     license: L-HRZF-DWHH7A
-    use: EventAutomationNonProduction
+    use: {{ .Values.ibmLicenseUse }}
   restProducer: {}
   strimziOverrides:
     kafka:
@@ -51,7 +51,7 @@ spec:
           configMapKeyRef:
             key: kafka-metrics-config.yaml
             name: development-metrics-config
-      replicas: 3
+      replicas: {{ .Values.kafka_replicas }}
       storage:
         type: ephemeral
     zookeeper:
@@ -61,7 +61,7 @@ spec:
           configMapKeyRef:
             key: zookeeper-metrics-config.yaml
             name: development-metrics-config
-      replicas: 3
+      replicas: {{ .Values.zookeeper_replicas }}
       storage:
         type: ephemeral
   version: latest

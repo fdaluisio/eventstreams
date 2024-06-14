@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-kafka
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    name: 'in-cluster'
+    namespace: myproject
+  source:
+    path: .
+    repoURL: 'https://github.com/fdaluisio/eventstreams.git'
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - 'values.yaml'
+    syncPolicy: {}

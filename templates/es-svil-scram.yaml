@@ -45,6 +45,10 @@ spec:
           port: 9093
           tls: true
           type: internal
+        - name: plain
+          port: 9092
+          type: internal
+          tls: false
       metricsConfig:
         type: jmxPrometheusExporter
         valueFrom:

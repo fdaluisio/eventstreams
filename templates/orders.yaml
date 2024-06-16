@@ -1,0 +1,14 @@
+kind: KafkaTopic
+apiVersion: eventstreams.ibm.com/v1beta2
+metadata:
+  name: orders
+  labels:
+    eventstreams.ibm.com/cluster: svil-es-kafka
+    backup.eventstreams.ibm.com/component: kafkatopic
+  namespace: myproject
+spec:
+  partitions: 1
+  replicas: 1
+  config:
+    min.insync.replicas: '1'
+

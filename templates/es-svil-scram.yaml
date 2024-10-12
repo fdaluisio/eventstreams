@@ -2,24 +2,105 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: EventStreams
 metadata:
   annotations:
-    eventstreams.ibm.com/apicurio-registry-version: '>=2.4.1'
+    eventstreams.ibm.com/apicurio-registry-version: '>=2.4'
   name: {{ .Values.env }}-{{ .Values.name }}
   namespace: {{ .Values.namespace }}
   labels:
     backup.eventstreams.ibm.com/component: eventstreams
 spec:
-  adminApi: {}
+  adminApi:
+    resources:
+        limits:
+          cpu: 2
+          memory: 1Gi
+        requests:
+          cpu: 0.5
+          memory: 1Gi
+    template:
+      pod:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: pot-ibm-event-stream
+                      operator: In
+                      values:
+                        - deloitte
   adminUI:
+    resources:
+        limits:
+          cpu: 1.1
+          memory: 600Mi
+        requests:
+          cpu: 0.35
+          memory: 600Mi
     authentication:
       - type: scram-sha-512
-  apicurioRegistry: {}
+    template:
+      pod:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: pot-ibm-event-stream
+                      operator: In
+                      values:
+                        - deloitte
+  apicurioRegistry:
+    resources:
+        limits:
+          cpu: 0.9
+          memory: 1250Mi
+        requests:
+          cpu: 0.9
+          memory: 1250Mi
+    template:
+      pod:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: pot-ibm-event-stream
+                      operator: In
+                      values:
+                        - deloitte
   collector: {}
   license:
     accept: true
     license: L-HRZF-DWHH7A
     use: {{ .Values.ibmLicenseUse }}
-  restProducer: {}
+  restProducer:
+    resources:
+        limits:
+          cpu: 1
+          memory: 1Gi
+        requests:
+          cpu: 0.25
+          memory: 1Gi
+    template:
+      pod:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: pot-ibm-event-stream
+                      operator: In
+                      values:
+                        - deloitte
   strimziOverrides:
+    entityOperator:
+      resources:
+          limits:
+            cpu: 2.1
+            memory: 1Gi
+          requests:
+            cpu: 0.1
+            memory: 1Gi
+      topicOperator: {}
     kafka:
       authorization:
         type: simple
@@ -27,7 +108,7 @@ spec:
         default.replication.factor: 3
         inter.broker.protocol.version: '3.6'
         log.cleaner.threads: 6
-        min.insync.replicas: 2
+        min.insync.replicas: 1
         num.io.threads: 24
         num.network.threads: 9
         num.replica.fetchers: 3
@@ -58,8 +139,28 @@ spec:
             key: kafka-metrics-config.yaml
             name: development-metrics-config
       replicas: {{ .Values.kafka_replicas }}
+      resources:
+        limits:
+          cpu: 1
+          memory: 4096Mi
+        requests:
+          cpu: 0.5
+          memory: 4096Mi
       storage:
-        type: ephemeral
+        class: vmware-ds-tanzu
+        size: 100Gi
+        type: persistent-claim
+      template:
+        pod:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: pot-ibm-event-stream
+                        operator: In
+                        values:
+                          - deloitte
     zookeeper:
       metricsConfig:
         type: jmxPrometheusExporter
@@ -68,6 +169,15 @@ spec:
             key: zookeeper-metrics-config.yaml
             name: development-metrics-config
       replicas: {{ .Values.zookeeper_replicas }}
+      resources:
+        limits:
+          cpu: 1
+          memory: 1Gi
+        requests:
+          cpu: 0.5
+          memory: 1Gi
       storage:
-        type: ephemeral
+        class: vmware-ds-tanzu
+        size: 4Gi
+        type: persistent-claim
   version: latest

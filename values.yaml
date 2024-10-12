@@ -3,13 +3,12 @@ name: es-kafka
 env: svil
 namespace: myproject
 ibmLicenseUse: EventAutomationNonProduction
-#wave: 1
-kafka_replicas: 3
+kafka_replicas: 1
+kafka_storage_size: 1Gi
 zookeeper_replicas: 1
+zookeeper_storage_size: 1Gi
+storageclassname: crc-csi-hostpath-provisioner
 #image: 
 #  repository: docker.io/fdaluisio/fd-sql-runner
 #  version: v1
 #  imagepullpolicy: Always
-#storageclassname: crc-csi-hostpath-provisioner
-#storage_broker: 150Gi
-#storage_zookeeper: 150Gi

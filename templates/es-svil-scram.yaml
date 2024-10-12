@@ -147,8 +147,8 @@ spec:
           cpu: 0.5
           memory: 4096Mi
       storage:
-        class: vmware-ds-tanzu
-        size: 100Gi
+        class: {{ .Values.storageclassname }}
+        size: {{ .Values.kafka_storage_size }}
         type: persistent-claim
       template:
         pod:
@@ -177,7 +177,7 @@ spec:
           cpu: 0.5
           memory: 1Gi
       storage:
-        class: vmware-ds-tanzu
-        size: 4Gi
+        class: {{ .Values.storageclassname }}
+        size: {{ .Values.zookeeper_storage_size }}
         type: persistent-claim
   version: latest

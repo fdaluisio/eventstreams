@@ -4,8 +4,8 @@ env: svil
 namespace: myproject
 ibmLicenseUse: EventAutomationNonProduction
 #wave: 1
-kafka_replicas: 3
-zookeeper_replicas: 3
+kafka_replicas: 1
+zookeeper_replicas: 1
 #image: 
 #  repository: docker.io/fdaluisio/fd-sql-runner
 #  version: v1
